@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+
+    <Properties>
+        <Property name="LOG_DIR">
+            ${env:APP_LOG_DIR:-${sys:catalina.base:-${env:CATALINA_BASE:-${sys:user.dir}}}/logs/app}
+        </Property>
+
+        <Property name="FILE_NAME">${LOG_DIR}/project.log</Property>
+        <Property name="FILE_PATTERN">${LOG_DIR}/project.%d{yyyy-MM-dd}-%i.log.gz</Property>
+
+        <Property name="FILE_PATTERN_LAYOUT">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %c{1}
+            [user=%X{userId:-anon} req=%X{requestId:-}]
+            - %msg%n%ex{full}
+        </Property>
+
+        <Property name="CONSOLE_PATTERN">
+            %d{HH:mm:ss.SSS} %-5level %c{1} - %msg%n%ex{short}
+        </Property>
+    </Properties>
+
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${CONSOLE_PATTERN}"/>
+        </Console>
+
+        <RollingFile
+                name="File"
+                fileName="${FILE_NAME}"
+                filePattern="${FILE_PATTERN}"
+                immediateFlush="true"
+                bufferSize="262144">
+
+            <PatternLayout pattern="${FILE_PATTERN_LAYOUT}"/>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+
+            <DefaultRolloverStrategy max="14">
+                <Delete basePath="${LOG_DIR}" maxDepth="1">
+                    <IfFileName glob="project.*.log.gz"/>
+                    <IfLastModified age="14d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+
+            <Filters>
+                <RegexFilter
+                        regex="(?i).*authorization:.*"
+                        onMatch="DENY"
+                        onMismatch="NEUTRAL"/>
+            </Filters>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+
+        <Logger name="com" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Logger>
+
+        <Logger name="org.springframework" level="info"/>
+
+        <Logger name="org.hibernate.SQL" level="warn"/>
+        <Logger name="org.hibernate.type.descriptor.sql" level="warn"/>
+
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+
+    </Loggers>
+
+</Configuration>

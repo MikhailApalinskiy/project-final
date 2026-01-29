@@ -1,0 +1,266 @@
+.tasks-container {
+    width: 100%;
+}
+
+.tasks-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.tasks-title {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+
+.tasks-panel {
+    margin-bottom: 14px;
+}
+
+.tasks-form {
+    display: grid;
+    gap: 10px;
+}
+
+.tasks-row {
+    display: grid;
+    grid-template-columns: 1fr 200px 200px;
+    gap: 10px;
+}
+
+@media (max-width: 860px) {
+    .tasks-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.tasks-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.tasks-grid {
+    display: grid;
+    gap: 14px;
+}
+
+.task-card {
+}
+
+.task-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.task-title {
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+}
+
+.task-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.task-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.task-status {
+    font-size: 12px;
+    font-weight: 900;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(15, 23, 42, .12);
+    background: rgba(15, 23, 42, .04);
+    color: rgba(15, 23, 42, .80);
+    white-space: nowrap;
+}
+
+.task-status--TODO {
+    border-color: rgba(249, 115, 22, .25);
+    background: rgba(249, 115, 22, .10);
+    color: #9a3412;
+}
+
+.task-status--IN_PROGRESS {
+    border-color: rgba(59, 130, 246, .25);
+    background: rgba(59, 130, 246, .10);
+    color: #1d4ed8;
+}
+
+.task-status--DONE {
+    border-color: rgba(16, 185, 129, .25);
+    background: rgba(16, 185, 129, .10);
+    color: #047857;
+}
+
+.task-desc {
+    margin: 10px 0 6px;
+    color: rgba(15, 23, 42, .78);
+    line-height: 1.45;
+}
+
+.task-meta {
+    margin-top: 6px;
+    font-size: 13px;
+    color: rgba(15, 23, 42, .62);
+}
+
+.task-meta strong {
+    color: rgba(15, 23, 42, .75);
+}
+
+.pager {
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+}
+
+.pager-pill {
+    padding: 10px 12px;
+}
+
+.filters-separator {
+    height: 12px;
+}
+
+.ucombo {
+    position: relative;
+    display: grid;
+    gap: 8px;
+}
+
+.ucombo-label {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .02em;
+    color: rgba(15, 23, 42, .68);
+}
+
+.ucombo-trigger {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(15, 23, 42, .14);
+    background: rgba(255, 255, 255, .78);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.ucombo-trigger:hover {
+    border-color: rgba(79, 70, 229, .35);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, .10);
+}
+
+.ucombo-value {
+    font-weight: 700;
+    color: rgba(15, 23, 42, .90);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ucombo-value.is-placeholder {
+    font-weight: 700;
+    color: rgba(15, 23, 42, .55);
+}
+
+.ucombo-chevron {
+    font-size: 14px;
+    opacity: .8;
+    transition: transform .12s ease;
+}
+
+.ucombo-chevron.is-open {
+    transform: rotate(180deg);
+}
+
+.ucombo-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 60;
+    border-radius: 14px;
+    border: 1px solid rgba(15, 23, 42, .10);
+    background: rgba(255, 255, 255, .92);
+    box-shadow: 0 18px 60px rgba(15, 23, 42, .14);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+.ucombo-searchRow {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid rgba(15, 23, 42, .08);
+}
+
+.ucombo-search {
+    height: 42px;
+}
+
+.ucombo-clearBtn {
+    height: 42px;
+    padding: 0 12px;
+    border-radius: 12px;
+}
+
+.ucombo-empty {
+    padding: 10px 12px;
+    color: rgba(15, 23, 42, .62);
+}
+
+.ucombo-list {
+    max-height: 260px;
+    overflow: auto;
+}
+
+.ucombo-item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+}
+
+.ucombo-item:hover,
+.ucombo-item.is-active {
+    background: rgba(79, 70, 229, .08);
+}
+
+.ucombo-email {
+    font-weight: 800;
+    color: rgba(15, 23, 42, .92);
+}
+
+.ucombo-id {
+    font-size: 12px;
+    color: rgba(15, 23, 42, .60);
+}
