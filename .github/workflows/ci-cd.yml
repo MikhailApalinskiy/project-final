@@ -1,0 +1,61 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Create monitoring env file
+        run: |
+          mkdir -p monitoring
+          cat > monitoring/password.env << EOF
+          GF_SMTP_USER=${{ secrets.GF_SMTP_USER }}
+          GF_SMTP_PASSWORD=${{ secrets.GF_SMTP_PASSWORD }}
+          GF_SMTP_FROM_ADDRESS=${{ secrets.GF_SMTP_FROM_ADDRESS }}
+          GF_SMTP_FROM_NAME=${{ secrets.GF_SMTP_FROM_NAME }}
+          ALERT_EMAIL_TO=${{ secrets.ALERT_EMAIL_TO }}
+          EOF
+
+      - name: Build images
+        run: docker compose -f docker-compose.ci.yml build
+
+      - name: Deploy (docker compose up)
+        run: docker compose -f docker-compose.ci.yml up -d
+
+      - name: Wait backend health
+        run: |
+          for i in {1..60}; do
+            if curl -fsS http://localhost:8080/actuator/health > /dev/null; then
+              echo "Backend is healthy"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Backend health check failed"
+          docker compose -f docker-compose.ci.yml logs backend
+          exit 1
+
+      - name: Smoke check frontend
+        run: |
+          curl -fsS http://localhost/ > /dev/null
+          echo "Frontend OK"
+
+      - name: Smoke check Grafana
+        run: |
+          curl -fsS http://localhost:3000/ > /dev/null
+          echo "Grafana OK"
+
+      - name: Logs (always)
+        if: always()
+        run: docker compose -f docker-compose.ci.yml logs --no-color
+
+      - name: Shutdown (always)
+        if: always()
+        run: docker compose -f docker-compose.ci.yml down -v
