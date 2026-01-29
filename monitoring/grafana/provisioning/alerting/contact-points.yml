@@ -1,0 +1,10 @@
+apiVersion: 1
+
+contactPoints:
+  - orgId: 1
+    name: Email - Primary
+    receivers:
+      - uid: email-primary
+        type: email
+        settings:
+          addresses: ${ALERT_EMAIL_TO}
